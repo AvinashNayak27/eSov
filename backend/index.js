@@ -73,7 +73,7 @@ app.post("/upload", upload, (req, res) => {
 
       // Metadata construction
       const metadata = {
-        name: "Token Name", // Consider making this dynamic
+        name: `ESOV ${tokenId}`, // Consider making this dynamic
         description: "A description of your token", // Consider making this dynamic
         image: imageUrl,
         attributes,

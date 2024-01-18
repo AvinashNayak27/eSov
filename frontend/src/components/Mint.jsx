@@ -197,7 +197,7 @@ const MintCard = ({ collectionId }) => {
         </div>
 
         <p className="text-lg text-gray-600 mt-4">
-          Mint price: {mintPrice ? mintPrice.toString() / 10 ** 18 : 0} ETH
+          Mint price: {mintPrice ? mintPrice.toString() / 10 ** 18 : 0} MATIC
         </p>
         <p className="text-lg text-gray-600 mt-4">
           Your Current Stream:{" "}
