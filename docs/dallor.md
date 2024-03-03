@@ -38,6 +38,7 @@ Fill in the values:
 Run the following command in your project directory to compile the `Dallor` contract:
 
 ```bash
+yarn # to install the dependencies
 npx truffle compile
 ```
 
