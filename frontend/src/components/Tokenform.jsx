@@ -27,7 +27,7 @@ const MintingOptionsForm = () => {
   const [royalityPercent, setRoyalityPercent] = useState(0);
   const [royalityReceiver, setRoyalityReceiver] = useState("");
 
-  const { writeAsync: createCollection, isLoading } = useContractWrite({
+  const { writeAsync: createCollection, isLoading, error: creationError } = useContractWrite({
     address: NFTCollectionFactoryAddress,
     abi: NFTCollectionFactoryABI,
     functionName: "createNFTCollection",
@@ -43,12 +43,10 @@ const MintingOptionsForm = () => {
   const [transactionHash, setTransactionHash] = useState("");
 
   useEffect(() => {
-    if(contractOwner){
+    if (contractOwner) {
       setRoyalityReceiver(contractOwner);
     }
   }, [contractOwner]);
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -84,7 +82,7 @@ const MintingOptionsForm = () => {
       flowRate: flowRate * 1653439153439,
       collectionAttributes: traitValues,
       royaltyPercentage: royalityPercent,
-      royaltyReceiver: royalityReceiver,
+      royalityReceiver: royalityReceiver,
     };
 
     try {
@@ -92,7 +90,7 @@ const MintingOptionsForm = () => {
       const tx = await createCollection({ args: [config] });
       setTransactionHash(tx.hash);
     } catch (err) {
-      console.log(err);
+      console.log("1");
     }
   };
 
@@ -336,7 +334,6 @@ const MintingOptionsForm = () => {
             value={imageSource}
             onChange={(e) => {
               setImageSource(e.target.value);
-              handleChange(e);
             }}
           >
             <option value="">Select Image Source</option>
@@ -467,35 +464,33 @@ const MintingOptionsForm = () => {
         </div>
         {enableRoyality && (
           <div className="flex mb-4 items-center">
-        <div className="flex mb-4 items-center">
-          <label className="block text-gray-700 text-sm font-bold mr-2">
-            Royality Percentage:
-          </label>
-          <input
-            type="number"
-            className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={royalityPercent}
-            onChange={(e) => setRoyalityPercent(e.target.value)}
-            placeholder="Enter Royality Percentage"
-          />
-        </div>
-        <div className="flex mb-4 items-center ml-4">
-          <label className="block text-gray-700 text-sm font-bold mr-2">
-            Royality Receiver:
-          </label>
-          <input
-            type="text"
-            className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={royalityReceiver}
-            onChange={(e) => setRoyalityReceiver(e.target.value)}
-            placeholder="Enter Royality Receiver Address"
-            size={45}
-          />
-        </div>
-        {
-          royalityReceiver == contractOwner && <p className="text-red-600 text-sm">** Default Royality Receiver is the contract owner</p>
-        }
-        </div>
+            <div className="flex mb-4 items-center">
+              <label className="block text-gray-700 text-sm font-bold mr-2">
+                Royality Percentage:
+              </label>
+              <input
+                type="number"
+                className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                value={royalityPercent}
+                onChange={(e) => setRoyalityPercent(e.target.value)}
+                placeholder="Enter Royality Percentage"
+              />
+            </div>
+            <div className="flex mb-4 items-center ml-4">
+              <label className="block text-gray-700 text-sm font-bold mr-2">
+                Royality Receiver:
+              </label>
+              <input
+                type="text"
+                className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                value={royalityReceiver}
+                onChange={(e) => setRoyalityReceiver(e.target.value)}
+                placeholder="Enter Royality Receiver Address"
+                size={45}
+              />
+            </div>
+            {royalityReceiver == contractOwner && <p className="text-red-600 text-sm ml-4">**  contractOwner is the default Royality Receiver</p>}
+          </div>
         )}
 
         {/* Submit Button */}
